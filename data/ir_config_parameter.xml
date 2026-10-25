@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- All optional. Settings > Technical > System Parameters. -->
+    <record id="param_reminder_hours" model="ir.config_parameter">
+        <field name="key">mailing_doi.reminder_hours</field>
+        <field name="value">48</field>
+    </record>
+    <record id="param_expire_days" model="ir.config_parameter">
+        <field name="key">mailing_doi.expire_days</field>
+        <field name="value">7</field>
+    </record>
+    <record id="param_resend_throttle_minutes" model="ir.config_parameter">
+        <field name="key">mailing_doi.resend_throttle_minutes</field>
+        <field name="value">60</field>
+    </record>
+    <!-- 1 = public pages without the website header/footer -->
+    <record id="param_minimal_layout" model="ir.config_parameter">
+        <field name="key">mailing_doi.minimal_layout</field>
+        <field name="value">1</field>
+    </record>
+    <!-- also read when set: mailing_doi.keep_tags (comma-separated tag names: pending contacts
+         carrying one, e.g. customers, are kept as expired instead of deleted), mailing_doi.signup_url,
+         mailing_doi.terms_url, mailing_doi.privacy_url -->
+</odoo>

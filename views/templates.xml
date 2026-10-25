@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default English texts. Every text block is an oe_structure: edit it per website in the
+         website editor (saved as a website-specific view, survives module updates). Name, address
+         and links come from doi_info (company / website / mailing_doi.* parameters). -->
+    <template id="page_shell" name="Newsletter double opt-in page">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <section class="container py-5" style="max-width:560px;">
+                    <p class="text-uppercase fw-bold small mb-4" style="letter-spacing:.08em;" t-out="doi_info['name']"/>
+                    <t t-out="0"/>
+                    <hr class="mt-5"/>
+                    <p class="small text-muted mb-0">
+                        <t t-out="doi_info['name']"/><t t-if="doi_info['address']"> · <t t-out="doi_info['address']"/></t>
+                        <t t-if="doi_info['terms_url']"> · <a t-att-href="doi_info['terms_url']">Terms</a></t>
+                        <t t-if="doi_info['privacy_url']"> · <a t-att-href="doi_info['privacy_url']">Privacy</a></t>
+                    </p>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="page_confirm" name="Confirm your subscription">
+        <t t-call="isolpa_mailing_double_optin.page_shell">
+            <div class="oe_structure" id="oe_structure_doi_confirm">
+                <h1 class="h3 mb-3">One last step</h1>
+                <p>Press the button to confirm that you want to receive our emails.</p>
+            </div>
+            <form t-attf-action="/newsletter/confirm/#{token}" method="post" class="mt-4">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <button type="submit" class="btn btn-primary btn-lg">Confirm my subscription</button>
+            </form>
+        </t>
+    </template>
+
+    <template id="page_confirmed" name="You are on the list">
+        <t t-call="isolpa_mailing_double_optin.page_shell">
+            <div class="oe_structure" id="oe_structure_doi_confirmed">
+                <h1 class="h3 mb-3">You're on the list</h1>
+                <p>Thanks for confirming.</p>
+            </div>
+            <p><a t-att-href="doi_info['website']">Back to <t t-out="doi_info['name']"/></a></p>
+        </t>
+    </template>
+
+    <template id="page_unsubscribe" name="Unsubscribe">
+        <t t-call="isolpa_mailing_double_optin.page_shell">
+            <div class="oe_structure" id="oe_structure_doi_unsubscribe">
+                <h1 class="h3 mb-3">Unsubscribe</h1>
+                <p>Press the button and we'll stop sending you marketing emails.</p>
+            </div>
+            <form t-attf-action="/newsletter/unsubscribe/#{token}" method="post" class="mt-4">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <button type="submit" class="btn btn-secondary btn-lg">Unsubscribe me</button>
+            </form>
+        </t>
+    </template>
+
+    <template id="page_unsubscribed" name="Unsubscribed">
+        <t t-call="isolpa_mailing_double_optin.page_shell">
+            <div class="oe_structure" id="oe_structure_doi_unsubscribed">
+                <h1 class="h3 mb-3">You're unsubscribed</h1>
+                <p>You won't receive more marketing emails from us. If you bought something from us, you will still get the emails about that purchase.</p>
+            </div>
+            <p>Changed your mind? <a t-att-href="doi_info['signup_url']">Sign up again</a>.</p>
+        </t>
+    </template>
+
+    <template id="page_link_invalid" name="Link not valid">
+        <t t-call="isolpa_mailing_double_optin.page_shell">
+            <div class="oe_structure" id="oe_structure_doi_invalid">
+                <h1 class="h3 mb-3">This link is no longer valid</h1>
+                <p>It may have expired or already been used.</p>
+            </div>
+            <p>You can <a t-att-href="doi_info['signup_url']">sign up again</a>.</p>
+        </t>
+    </template>
+</odoo>

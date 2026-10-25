@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Transactional (NOT doi_marketing). Default English text: edit it per database. Sender =
+         company email (the outgoing server's from_filter rewrites it when needed), replies = catchall. -->
+    <record id="mail_template_doi_confirm" model="mail.template">
+        <field name="name">Mailing: confirm your subscription (double opt-in)</field>
+        <field name="model_id" ref="mass_mailing.model_mailing_contact"/>
+        <field name="subject">Please confirm your subscription to {{ object.env.company.name }}</field>
+        <field name="email_from">{{ object.env.company.email_formatted }}</field>
+        <field name="reply_to">{{ object.env.company.catchall_formatted or object.env.company.email_formatted }}</field>
+        <field name="email_to">{{ object.email }}</field>
+        <field name="use_default_to" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+<div style="margin:0;padding:24px 0;background:#f4f4f2;font-family:Helvetica,Arial,sans-serif;color:#1d1d1b;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:8px;">
+    <tr><td style="padding:32px 32px 8px 32px;font-size:16px;line-height:1.5;">
+      <p style="margin:0 0 16px 0;">Hi <t t-out="(object.name or '').split(' ')[0] or 'there'"/>,</p>
+      <p style="margin:0 0 16px 0;">Thanks for your interest in <t t-out="object.env.company.name"/>. Please confirm that you want to receive our emails.</p>
+      <p style="margin:24px 0;text-align:center;">
+        <a t-att-href="object.doi_confirm_url" style="background:#1d1d1b;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:6px;display:inline-block;font-weight:bold;">Confirm my subscription</a>
+      </p>
+      <p style="margin:0 0 16px 0;font-size:14px;color:#555;">This link works for 7 days. If you didn't sign up, ignore this email and you won't hear from us.</p>
+    </td></tr>
+    <tr><td style="padding:16px 32px 32px 32px;font-size:12px;line-height:1.5;color:#777;border-top:1px solid #eee;">
+      <t t-out="object.doi_sender_footer"/>
+    </td></tr>
+  </table>
+</div>
+        </field>
+    </record>
+</odoo>

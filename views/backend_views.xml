@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mailing_contact_view_form_doi" model="ir.ui.view">
+        <field name="name">mailing.contact.form.doi</field>
+        <field name="model">mailing.contact</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_contact_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Double opt-in and consent" name="doi">
+                    <group>
+                        <field name="doi_state"/>
+                        <field name="doi_requested_at"/>
+                        <field name="doi_sent_at"/>
+                        <field name="doi_reminded_at"/>
+                        <field name="doi_confirmed_at"/>
+                        <field name="doi_confirm_ip"/>
+                        <field name="doi_confirm_ua"/>
+                    </group>
+                    <group>
+                        <field name="doi_signup_at"/>
+                        <field name="doi_signup_source"/>
+                        <field name="doi_signup_ip"/>
+                        <field name="doi_signup_ua"/>
+                        <field name="doi_consent_version"/>
+                        <field name="doi_consent_text"/>
+                        <field name="doi_customer_at"/>
+                        <field name="doi_customer_source"/>
+                        <field name="doi_customer_ref"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mailing_contact_view_list_doi" model="ir.ui.view">
+        <field name="name">mailing.contact.list.doi</field>
+        <field name="model">mailing.contact</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_contact_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="doi_state" optional="show"/>
+                <field name="doi_confirmed_at" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mailing_contact_view_search_doi" model="ir.ui.view">
+        <field name="name">mailing.contact.search.doi</field>
+        <field name="model">mailing.contact</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_contact_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="doi_pending" string="Pending confirmation" domain="[('doi_state', '=', 'pending')]"/>
+                <filter name="doi_confirmed" string="Confirmed" domain="[('doi_state', '=', 'confirmed')]"/>
+                <group>
+                    <filter name="groupby_doi" string="Double opt-in" context="{'group_by': 'doi_state'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mailing_list_view_form_doi" model="ir.ui.view">
+        <field name="name">mailing.list.form.doi</field>
+        <field name="model">mailing.list</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_list_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_public']" position="after">
+                <field name="doi_required"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mail_template_view_form_doi" model="ir.ui.view">
+        <field name="name">mail.template.form.doi</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='model_id']" position="after">
+                <field name="doi_marketing" invisible="model != 'mailing.contact'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
