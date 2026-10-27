@@ -25,6 +25,8 @@ Author: Independent Solutions, S.A. (iSolpa).
 - **Service / transactional** (what the customer bought: access link, order notices): needs no
   marketing opt-in (CAN-SPAM: a message that delivers what a transaction agreed to). Use a template
   *without* the checkbox, sent to the customer tag. Keep it service-only: no promotion in subject or body.
+  Like marketing templates, it wakes the mail queue, so a `send_mail` loop leaves in seconds, not at the
+  next hourly run. Do not add `force_send=True` or `mail.mail.send()`: they race the queue and can send twice.
 - A payment is not marketing consent. Offer an optional, unticked checkbox at checkout that goes
   through `doi_signup` if you also want buyers on the marketing list.
 

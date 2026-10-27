@@ -37,7 +37,8 @@ class MailTemplate(models.Model):
             mails |= super().send_mail_batch(
                 contact.ids, force_send=force_send, raise_exception=raise_exception,
                 email_values=values, email_layout_xmlid=email_layout_xmlid)
-        if mails and self._doi_gated():
+        # service emails to contacts too (e.g. a launch-day link): the queue cron is hourly
+        if mails and not force_send:
             self.env['mailing.contact']._doi_trigger_mail_queue()
         return mails
 
